@@ -8,14 +8,25 @@ Created on Fri Oct  7 12:48:46 2022
 import pandas as pd
 import streamlit as st
 
-df = pd.read_csv('covid-variants.csv')
+df = pd.read_csv('covid-variants.csv') #lendo tabela excel
 
-variante = list(df['variant'].unique())
-pais = list(df['location'].unique())
+variantes = list(df['variant'].unique())
+paises = list(df['location'].unique())
 
 df['date'] = pd.to_datetime(df['date'], format = '%Y-%m-%d')
 
-st.selectbox('Escolha o país', ['Todos'] + pais)
-st.selectbox('Escolha a variante', ['Todas'] + variante)
+pais = st.sidebar.selectbox('Escolha o país', ['Todos'] + paises)
+variante = st.sidebar.selectbox('Escolha a variante', ['Todas'] + variantes)
 
-
+if(pais != 'Todos'):
+    st.text('Mostrando resultados de ' + pais)
+    df = df[df['location'] == pais]
+else:
+    st.text('Mostrando resultados para todos os países')
+    
+if(variante != 'Todas'):
+    st.text('Mostrando resultados para variante ' + variante)
+    df = df[df['variant'] == variante]
+    
+else:
+    st.text('Mostrando resultados para todas as variantes')
