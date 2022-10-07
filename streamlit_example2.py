@@ -19,16 +19,22 @@ pais = st.sidebar.selectbox('Escolha o país', ['Todos'] + paises)
 variante = st.sidebar.selectbox('Escolha a variante', ['Todas'] + variantes)
 
 if(pais != 'Todos'):
-    st.text('Mostrando resultados de ' + pais)
+    st.header('Mostrando resultados de ' + pais)
     df = df[df['location'] == pais]
 else:
     st.header('Mostrando resultados para todos os países')
     
 if(variante != 'Todas'):
-    st.text('Mostrando resultados para variante ' + variante)
+    st.subheader('Mostrando resultados para variante ' + variante)
     df = df[df['variant'] == variante]
     
 else:
     st.subheader('Mostrando resultados para todas as variantes')
     
 dfShow = df.groupby(by = ['date']).sum()
+
+import plotly.express as px
+fig = px.line(dfShow, x = dfShow.index, y = 'num_sequences')
+fig.update_layout(title = 'casos diários de covid 19')
+st.plotly_chart(fig, use_container_width=true)
+
