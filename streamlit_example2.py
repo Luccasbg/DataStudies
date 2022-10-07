@@ -22,11 +22,13 @@ if(pais != 'Todos'):
     st.text('Mostrando resultados de ' + pais)
     df = df[df['location'] == pais]
 else:
-    st.text('Mostrando resultados para todos os países')
+    st.header('Mostrando resultados para todos os países')
     
 if(variante != 'Todas'):
     st.text('Mostrando resultados para variante ' + variante)
     df = df[df['variant'] == variante]
     
 else:
-    st.text('Mostrando resultados para todas as variantes')
+    st.subheader('Mostrando resultados para todas as variantes')
+    
+dfShow = df.groupby(by = ['date']).sum()
